@@ -23,6 +23,7 @@ export function parseArgs(argv: string[]): CommitOptions {
 
   for (let i = 0; i < argv.length; i++) {
     const token = argv[i];
+    // ？还是支持了 -- 吗……
     if (token === '--') {
       gitArgs.push(...argv.slice(i));
       break;
