@@ -1,9 +1,9 @@
-# @woisol/wy-git-commit
+# @woisol-g/wy-git-commit
 
 Formats My-Git-Commit messages and runs one commit command without staging or inspecting changes.
 
 ```sh
-npx @woisol/wy-git-commit --type feat,docs --title "add CLI" --scope cli
+npx @woisol-g/wy-git-commit --type feat,docs --title "add CLI" --scope cli
 wy-git-commit setup
 wy-git-commit reset
 ```
