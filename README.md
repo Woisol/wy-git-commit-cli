@@ -17,9 +17,11 @@ Configuration: `$XDG_CONFIG_HOME/wy-git-commit/config.yml` if set to an absolute
 ```yaml
 commitCommand: [git, commit]
 types:
-  feat: "「 :sparkles: 新增 / feat 」"
-  docs: "「 :pencil: 文档 / docs 」"
+  feat: ":sparkles: 新增 / feat"
+  docs: ":pencil: 文档 / docs"
 ```
+
+Type labels are plain text; the CLI adds `「」` around the combined labels in the commit message.
 
 `commitCommand` is an executable followed by fixed arguments, not shell text. On Windows, use a native executable or run a script through its interpreter (for example, Node with a JavaScript file as a fixed argument). For a Git alias use `[git, your-alias]`. `setup` runs `npx skills add` for the standalone Skill and preserves its prompts. The Skill is tracked separately as the `skill/` submodule.
 

@@ -35,11 +35,10 @@ export async function loadConfig() {
   }
   const labels = new Map<string, string>();
   for (const [key, label] of Object.entries(types)) {
-    const match = typeof label === 'string' && /^「 ([^\r\n]+) 」$/.exec(label);
-    if (!/^[^\s,]+$/.test(key) || !match || !match[1].trim()) {
-      throw new Error('Invalid type mapping for ' + key + '; expected a label of the form 「 label 」.');
+    if (!/^[^\s,]+$/.test(key) || typeof label !== 'string' || !label.trim()) {
+      throw new Error('Invalid type mapping for ' + key + '; expected non-empty label text.');
     }
-    labels.set(key, match[1]);
+    labels.set(key, label);
   }
   return { commitCommand: commitCommand as [string, ...string[]], labels };
 }
