@@ -14,12 +14,14 @@ export type CommitOptions = Partial<Record<Exclude<Key, 'types' | 'title'>, stri
   types: string[];
   title: string;
   gitArgs: string[];
+  wyDryRun: boolean;
 };
 
 export function parseArgs(argv: string[]): CommitOptions {
   const values: Partial<Record<Key, string>> = {};
   const types: string[] = [];
   const gitArgs: string[] = [];
+  let wyDryRun = false;
 
   for (let i = 0; i < argv.length; i++) {
     const token = argv[i];
@@ -30,6 +32,11 @@ export function parseArgs(argv: string[]): CommitOptions {
     }
     const equals = token.indexOf('=');
     const name = equals === -1 ? token : token.slice(0, equals);
+    if (name === '--wy-dry-run') {
+      if (equals !== -1) throw new Error('--wy-dry-run does not take a value.');
+      wyDryRun = true;
+      continue;
+    }
     // Match -m, attached values, familiar short flag bundles, and Git's long abbreviations.
     if (/^-[aqsvenioz]*m/.test(token) || /^--m(?:e(?:s(?:s(?:a(?:g(?:e)?)?)?)?)?)?$/.test(name)) {
       throw new Error('Do not pass -m or --message; use --title and --body.');
@@ -62,5 +69,5 @@ export function parseArgs(argv: string[]): CommitOptions {
 
   if (!types.length) throw new Error('--type is required.');
   if (!values.title) throw new Error('--title is required.');
-  return { ...values, title: values.title, types, gitArgs };
+  return { ...values, title: values.title, types, gitArgs, wyDryRun };
 }

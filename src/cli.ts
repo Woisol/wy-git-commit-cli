@@ -20,7 +20,7 @@ const help = [
   '  wy-git-commit setup',
   '',
   'Options: --scope SCOPE, --body BODY, --breaking MIGRATION, --harness NAME,',
-  '         --ai-generated true|false, --ai-review true|false',
+  '         --ai-generated true|false, --ai-review true|false, --wy-dry-run',
   'Repeat --type or use a comma-separated list.',
   'Configuration: ' + configPath,
 ].join('\n');
@@ -40,6 +40,10 @@ async function main(argv: string[]) {
   const options = parseArgs(argv);
   const config = await loadConfig();
   const message = formatMessage(options, config.labels);
+  if (options.wyDryRun) {
+    console.log(message);
+    return 0;
+  }
   const [command, ...fixedArgs] = config.commitCommand;
   return run(command, [...fixedArgs, '-m', message, ...options.gitArgs]);
 }

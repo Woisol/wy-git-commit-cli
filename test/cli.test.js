@@ -31,6 +31,13 @@ test('creates a real commit and forwards Git failure status and stderr', t => {
   assert.match(failed.stderr, /not-a-real-git-option/);
 });
 
+test('prints the generated message without running the commit command in debug-only mode', t => {
+  const { invoke } = fixture(t);
+  const result = invoke('--type', 'feat', '--title', 'inspect only', '--wy-dry-run');
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(result.stdout.trim(), '「 :sparkles: 新增 / feat 」: inspect only');
+});
+
 test('uses custom YAML and command tokens, then resets all settings', t => {
   const { cwd, config, invoke } = fixture(t);
   assert.equal(invoke('reset').status, 0);

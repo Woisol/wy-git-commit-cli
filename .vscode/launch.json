@@ -24,7 +24,8 @@
         "--ai-generated",
         "true",
         "--ai-review",
-        "true"
+        "true",
+        "--wy-dry-run"
       ],
       "runtimeExecutable": "pnpm",
       "skipFiles": [

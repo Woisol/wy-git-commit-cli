@@ -8,7 +8,7 @@ wy-git-commit setup
 wy-git-commit reset
 ```
 
-`--type` and `--title` are required. Repeat `--type` or use a comma-separated list. Optional fields: `--scope`, `--body`, `--breaking` (migration instructions), `--harness`, `--ai-generated true|false`, and `--ai-review true|false`. Any AI option adds the marker; only supplied fields are recorded. `--ai-review` records whether meaningful human review occurred.
+`--type` and `--title` are required. Repeat `--type` or use a comma-separated list. Optional fields: `--scope`, `--body`, `--breaking` (migration instructions), `--harness`, `--ai-generated true|false`, `--ai-review true|false`, and `--wy-dry-run`. Any AI option adds the marker; only supplied fields are recorded. `--ai-review` records whether meaningful human review occurred. `--wy-dry-run` prints the formatted commit message and skips the commit command.
 
 Unrecognized arguments are forwarded in order, including Git's own pathspec separator. For Git options that take a value resembling a CLI option, prefer `--git-option=value`. Do not pass `-m` or `--message`. Git output and exit status are inherited. The decorated heading may need a custom parser for release automation.
 
