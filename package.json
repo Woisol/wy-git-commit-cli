@@ -1,0 +1,37 @@
+{
+  "name": "@woisol/wy-git-commit",
+  "version": "0.1.0",
+  "description": "Format a My-Git-Commit message and run Git",
+  "type": "module",
+  "bin": {
+    "wy-git-commit": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "config/default.yml"
+  ],
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "packageManager": "pnpm@12.18.0",
+  "scripts": {
+    "build": "rolldown -c",
+    "test": "pnpm run build && node --test",
+    "prepack": "pnpm run build"
+  },
+  "dependencies": {
+    "cross-spawn": "^7.0.6",
+    "yaml": "^2.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "rolldown": "1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Woisol/wy-git-commit-cli.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
