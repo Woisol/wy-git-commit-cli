@@ -1,0 +1,58 @@
+name: Publish Wy-Git-Commit-CLI
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish to npm (leave unchecked to verify the package)
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: publish
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+
+      - name: Pack package
+        run: |
+          mkdir -p "$RUNNER_TEMP/package"
+          pnpm pack --pack-destination "$RUNNER_TEMP/package"
+
+      - name: Publish to npm
+        if: github.event_name == 'release' || inputs.publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+        run: |
+          if [[ -z "$NODE_AUTH_TOKEN" ]]; then
+            echo '::error::Missing NODE_AUTH_TOKEN in the publish environment'
+            exit 1
+          fi
+          npm publish "$RUNNER_TEMP/package/"*.tgz --access public
+
+      - name: Write release summary
+        if: github.event_name == 'release' || inputs.publish
+        run: |
+          name="$(node -p 'require("./package.json").name')"
+          version="$(node -p 'require("./package.json").version')"
+          printf 'Published [%s@%s](https://www.npmjs.com/package/%s/v/%s)\n' \
+            "$name" "$version" "$name" "$version" >> "$GITHUB_STEP_SUMMARY"

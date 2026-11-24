@@ -1,9 +1,18 @@
+import { join } from 'node:path';
 import { parseArgs } from './args.js';
 import { configPath, loadConfig, resetConfig } from './config.js';
 import { formatMessage } from './message.js';
 import { run } from './process.js';
 
-const skillSource = 'https://github.com/Woisol/WY-Git-Commit.git';
+function setup() {
+  const args = ['skills', 'add', 'https://github.com/Woisol/WY-Git-Commit.git', '--skill', 'wy-git-commit'];
+  if (process.platform === 'win32') {
+    // npm provides npx.cmd on Windows. Only these fixed setup arguments go through cmd.
+    const cmd = join(process.env.SystemRoot ?? 'C:\\Windows', 'System32', 'cmd.exe');
+    return run(cmd, ['/d', '/c', 'npx.cmd', ...args]);
+  }
+  return run('npx', args);
+}
 const help = [
   'Usage:',
   '  wy-git-commit --type TYPE --title TITLE [options] [git commit arguments]',
@@ -23,7 +32,7 @@ async function main(argv: string[]) {
   }
   if (argv[0] === 'reset' || argv[0] === 'setup') {
     if (argv.length !== 1) throw new Error(argv[0] + ' does not take arguments.');
-    if (argv[0] === 'setup') return run('npx', ['skills', 'add', skillSource, '--skill', 'wy-git-commit']);
+    if (argv[0] === 'setup') return setup();
     await resetConfig();
     console.log('Reset configuration: ' + configPath);
     return 0;

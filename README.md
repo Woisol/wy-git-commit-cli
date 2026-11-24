@@ -21,7 +21,7 @@ types:
   docs: "「 :pencil: 文档 / docs 」"
 ```
 
-`commitCommand` is an executable followed by fixed arguments, not shell text. For a Git alias use `[git, your-alias]`. `setup` runs `npx skills add` for the standalone Skill and preserves its prompts. The Skill is tracked separately as the `skill/` submodule.
+`commitCommand` is an executable followed by fixed arguments, not shell text. On Windows, use a native executable or run a script through its interpreter (for example, Node with a JavaScript file as a fixed argument). For a Git alias use `[git, your-alias]`. `setup` runs `npx skills add` for the standalone Skill and preserves its prompts. The Skill is tracked separately as the `skill/` submodule.
 
 ## Development
 
