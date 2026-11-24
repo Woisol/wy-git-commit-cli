@@ -11,6 +11,10 @@ function fixture(t) {
   const cwd = mkdtempSync(join(tmpdir(), 'wy-git-commit-'));
   t.after(() => rmSync(cwd, { recursive: true, force: true }));
   const env = { ...process.env, XDG_CONFIG_HOME: cwd, GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: join(cwd, 'no-config') };
+  for (const key of [
+    'GIT_DIR', 'GIT_WORK_TREE', 'GIT_INDEX_FILE', 'GIT_PREFIX', 'GIT_COMMON_DIR',
+    'GIT_OBJECT_DIRECTORY', 'GIT_ALTERNATE_OBJECT_DIRECTORIES', 'GIT_NAMESPACE', 'GIT_SHALLOW_FILE',
+  ]) delete env[key];
   const run = (command, args) => spawnSync(command, args, { cwd, env, encoding: 'utf8' });
   const invoke = (...args) => run(process.execPath, [cli, ...args]);
   return { cwd, env, run, invoke, config: join(cwd, 'wy-git-commit', 'config.yml') };
