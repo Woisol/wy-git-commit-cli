@@ -1,4 +1,4 @@
-import type { CommitOptions } from './args.js';
+import type { CommitOptions } from './args.ts';
 
 export function formatMessage(options: CommitOptions, types: ReadonlyMap<string, string>) {
   const labels = options.types.map(type => {

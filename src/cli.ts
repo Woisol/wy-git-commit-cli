@@ -1,8 +1,8 @@
 import { join } from 'node:path';
-import { parseArgs } from './args.js';
-import { configPath, loadConfig, resetConfig } from './config.js';
-import { formatMessage } from './message.js';
-import { run } from './process.js';
+import { parseArgs } from './args.ts';
+import { configPath, loadConfig, resetConfig } from './config.ts';
+import { formatMessage } from './message.ts';
+import { run } from './process.ts';
 
 function setup() {
   const args = ['skills', 'add', 'https://github.com/Woisol/WY-Git-Commit.git', '--skill', 'wy-git-commit'];
