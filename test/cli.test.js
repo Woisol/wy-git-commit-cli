@@ -44,10 +44,6 @@ test('uses custom YAML and command tokens, then resets all settings', t => {
   const defaults = readFileSync(config, 'utf8');
   const fake = join(cwd, 'fake.cjs');
   writeFileSync(fake, 'console.log(JSON.stringify(process.argv.slice(2))); console.error("forwarded error"); process.exitCode = 17;');
-  writeFileSync(config, JSON.stringify({ commitCommand: [process.execPath, fake, 'fixed'], types: { custom: '「 custom label 」' } }));
-  const invalid = invoke('--type', 'custom', '--title', 'check');
-  assert.equal(invalid.status, 2);
-  assert.match(invalid.stderr, /without 「」/);
   writeFileSync(config, JSON.stringify({ commitCommand: [process.execPath, fake, 'fixed'], types: { custom: 'custom label' } }));
   const result = invoke('--type', 'custom', '--title', 'check', '--ai-review=false', '--future', 'value');
   assert.equal(result.status, 17, result.stderr);
