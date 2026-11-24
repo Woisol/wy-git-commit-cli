@@ -14,7 +14,7 @@ export function formatMessage(options: CommitOptions, types: ReadonlyMap<string,
       options.breaking.replace(/\r?\n/g, '\n '));
   }
   if (options.harness !== undefined || options.aiGenerated !== undefined || options.aiReview !== undefined) {
-    const ai = ['\n「[AI] Agentic Coding 产物 / Agentic Coding Product」'];
+    const ai = ['「[AI] Agentic Coding 产物 / Agentic Coding Product」'];
     if (options.harness !== undefined) {
       ai.push('本次提交由 ' + options.harness + ' 执行 / This commit was made by ' + options.harness + '.');
     }
