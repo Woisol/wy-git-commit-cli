@@ -1,6 +1,6 @@
 {
   "name": "@woisol/wy-git-commit",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Format a My-Git-Commit message and run Git",
   "type": "module",
   "bin": {
