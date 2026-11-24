@@ -1,14 +1,14 @@
 name: Publish Wy-Git-Commit-CLI
 
 on:
+  workflow_dispatch:
+    # inputs:
+    #   publish:
+    #     description: Publish to npm (leave unchecked to verify the package)
+    #     type: boolean
+    #     default: false
   release:
     types: [published]
-  workflow_dispatch:
-    inputs:
-      publish:
-        description: Publish to npm (leave unchecked to verify the package)
-        type: boolean
-        default: false
   push:
     tags: [ 'v*' ]
 
@@ -42,7 +42,6 @@ jobs:
           pnpm pack --pack-destination "$RUNNER_TEMP/package"
 
       - name: Publish to npm
-        if: github.event_name == 'release' || inputs.publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
         run: |
@@ -50,10 +49,9 @@ jobs:
             echo '::error::Missing NODE_AUTH_TOKEN in the publish environment'
             exit 1
           fi
-          npm publish "$RUNNER_TEMP/package/"*.tgz --access public
+          pnpm publish "$RUNNER_TEMP/package/"*.tgz --access public
 
       - name: Write release summary
-        if: github.event_name == 'release' || inputs.publish
         run: |
           name="$(node -p 'require("./package.json").name')"
           version="$(node -p 'require("./package.json").version')"
