@@ -15,6 +15,7 @@ function setup() {
 }
 const help = [
   'Usage:',
+  '  wy-git-commit TYPE TITLE [options] [git commit arguments]',
   '  wy-git-commit --type TYPE --title TITLE [options] [git commit arguments]',
   '  wy-git-commit reset',
   '  wy-git-commit setup',
@@ -22,6 +23,7 @@ const help = [
   'Options: --scope SCOPE, --body BODY, --breaking MIGRATION, --harness NAME,',
   '         --ai-generated true|false, --ai-review true|false, --wy-dry-run',
   'Repeat --type or use a comma-separated list.',
+  'Named --type and --title override the corresponding leading positional values.',
   'Configuration: ' + configPath,
 ].join('\n');
 

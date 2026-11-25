@@ -17,6 +17,12 @@ export type CommitOptions = Partial<Record<Exclude<Key, 'types' | 'title'>, stri
   wyDryRun: boolean;
 };
 
+function parseTypes(value: string): string[] {
+  const entries = value.split(',').map(entry => entry.trim());
+  if (entries.includes('')) throw new Error('--type contains an empty entry.');
+  return entries;
+}
+
 export function parseArgs(argv: string[]): CommitOptions {
   const values: Partial<Record<Key, string>> = {};
   const types: string[] = [];
@@ -53,9 +59,7 @@ export function parseArgs(argv: string[]): CommitOptions {
     const value = equals === -1 ? argv[++i] : token.slice(equals + 1);
     if (!value.trim()) throw new Error(name + ' requires a non-empty value.');
     if (key === 'types') {
-      const entries = value.split(',').map(entry => entry.trim());
-      if (entries.includes('')) throw new Error('--type contains an empty entry.');
-      types.push(...entries);
+      types.push(...parseTypes(value));
       continue;
     }
     if ((key === 'aiReview' || key === 'aiGenerated') && value !== 'true' && value !== 'false') {
@@ -65,6 +69,19 @@ export function parseArgs(argv: string[]): CommitOptions {
       throw new Error(name + ' must be a single line.');
     }
     values[key] = value;
+  }
+
+  // A leading pair supplies defaults; explicit options override each field.
+  const [positionalType, positionalTitle] = argv;
+  if (positionalType !== undefined && !positionalType.startsWith('-') &&
+      positionalTitle !== undefined && !positionalTitle.startsWith('-')) {
+    if (!types.length) types.push(...parseTypes(positionalType));
+    if (values.title === undefined) {
+      if (!positionalTitle.trim()) throw new Error('TITLE requires a non-empty value.');
+      if (/[\r\n]/.test(positionalTitle)) throw new Error('TITLE must be a single line.');
+      values.title = positionalTitle;
+    }
+    gitArgs.splice(0, 2);
   }
 
   if (!types.length) throw new Error('--type is required.');

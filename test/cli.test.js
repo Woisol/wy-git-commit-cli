@@ -35,6 +35,16 @@ test('creates a real commit and forwards Git failure status and stderr', t => {
   assert.match(failed.stderr, /not-a-real-git-option/);
 });
 
+test('commits with the positional type and title', t => {
+  const { run, invoke } = fixture(t);
+  assert.equal(run('git', ['init', '-q']).status, 0);
+  assert.equal(run('git', ['config', 'user.name', 'CLI Test']).status, 0);
+  assert.equal(run('git', ['config', 'user.email', 'cli@example.invalid']).status, 0);
+  const result = invoke('feat', '旧标题', '--scope', 'cli', '--allow-empty', '--type=fix', '--title=修复命令');
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(run('git', ['log', '-1', '--format=%s']).stdout.trim(), '「 :bug: 修复 / fix 」(cli): 修复命令');
+});
+
 test('prints the generated message without running the commit command in debug-only mode', t => {
   const { invoke } = fixture(t);
   const result = invoke('--type', 'feat', '--title', 'inspect only', '--wy-dry-run');
