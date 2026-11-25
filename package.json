@@ -4,7 +4,8 @@
   "description": "Format a My-Git-Commit message and run Git",
   "type": "module",
   "bin": {
-    "wy-git-commit": "dist/cli.js"
+    "wy-git-commit": "dist/cli.js",
+    "wgc": "dist/cli.js"
   },
   "files": [
     "dist",
