@@ -1,6 +1,6 @@
 {
   "name": "@woisol-g/wgc",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Format a My-Git-Commit message and run Git",
   "type": "module",
   "bin": {
