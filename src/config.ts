@@ -8,7 +8,7 @@ export const configPath = join(
   process.env.XDG_CONFIG_HOME && isAbsolute(process.env.XDG_CONFIG_HOME)
     ? process.env.XDG_CONFIG_HOME
     : join(homedir(), '.config'),
-  'wy-git-commit', 'config.yml',
+  'wgc', 'config.yml',
 );
 
 function isRecord(value: unknown): value is Record<string, unknown> {

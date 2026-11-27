@@ -15,10 +15,10 @@ function setup() {
 }
 const help = [
   'Usage:',
-  '  wy-git-commit TYPE TITLE [options] [git commit arguments]',
-  '  wy-git-commit --type TYPE --title TITLE [options] [git commit arguments]',
-  '  wy-git-commit reset',
-  '  wy-git-commit setup',
+  '  wgc TYPE TITLE [options] [git commit arguments]',
+  '  wgc --type TYPE --title TITLE [options] [git commit arguments]',
+  '  wgc reset',
+  '  wgc setup',
   '',
   'Options: --scope SCOPE, --body BODY, --breaking MIGRATION, --harness NAME,',
   '         --ai-generated true|false, --ai-review true|false, --wy-dry-run',
@@ -53,6 +53,6 @@ async function main(argv: string[]) {
 try {
   process.exitCode = await main(process.argv.slice(2));
 } catch (error) {
-  console.error('wy-git-commit: ' + (error instanceof Error ? error.message : String(error)));
+  console.error('wgc: ' + (error instanceof Error ? error.message : String(error)));
   process.exitCode = 2;
 }

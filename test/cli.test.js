@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 
 const cli = fileURLToPath(new URL('../dist/cli.js', import.meta.url));
 function fixture(t) {
-  const cwd = mkdtempSync(join(tmpdir(), 'wy-git-commit-'));
+  const cwd = mkdtempSync(join(tmpdir(), 'wgc-'));
   t.after(() => rmSync(cwd, { recursive: true, force: true }));
   const env = { ...process.env, XDG_CONFIG_HOME: cwd, GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: join(cwd, 'no-config') };
   for (const key of [
@@ -17,7 +17,7 @@ function fixture(t) {
   ]) delete env[key];
   const run = (command, args) => spawnSync(command, args, { cwd, env, encoding: 'utf8' });
   const invoke = (...args) => run(process.execPath, [cli, ...args]);
-  return { cwd, env, run, invoke, config: join(cwd, 'wy-git-commit', 'config.yml') };
+  return { cwd, env, run, invoke, config: join(cwd, 'wgc', 'config.yml') };
 }
 
 test('creates a real commit and forwards Git failure status and stderr', t => {
